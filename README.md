@@ -1,5 +1,7 @@
-1. Create following config file in config file
-    a. cache.local.php
+1. <h4>Create following config file in config file</h4>
+    a. <b>cache.local.php</b>
+    
+    ```
         return [
             'components' => [
                 'cache' => [
@@ -18,9 +20,11 @@
                 ],
             ]
         ];
+    ```
   
-    b. db.local.php
-       return [
+  b. <b>db.local.php</b>
+    <pre>
+        return [
             'components' => [
                 'db' => [
                     'class' => 'yii\db\Connection',
@@ -32,4 +36,4 @@
                 ],
             ]
         ];
-    
+  </pre>
