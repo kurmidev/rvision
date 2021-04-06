@@ -12,18 +12,11 @@ $conf = [
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+// !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'rvision_ptrhu11Wu6Zj8wBirbZx',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ]
-        ],
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-        ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -31,8 +24,8 @@ $conf = [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
+// 'useFileTransport' to false and configure a transport
+// for the mailer to send real emails.
             'useFileTransport' => true,
         ],
         'log' => [
@@ -48,18 +41,52 @@ $conf = [
         'response' => [
             'format' => yii\web\Response::FORMAT_JSON,
             'charset' => 'UTF-8',
+            'on beforeSend' => function ($event) {
+                $response = $event->sender;
+                $responseData = $response->data;
+                if ($response->format == 'html') {
+                    return $response;
+                }
+                if ($response->format == 'raw') {
+                    return $response;
+                }
+
+
+                if (is_string($responseData) && json_decode($responseData)) {
+                    $responseData = json_decode($responseData, true);
+                }
+                if (isset($responseData['message'])) {
+                    $responseData['message'] = json_decode($responseData['message'], true);
+                }
+                if ($response->statusCode >= 200 && $response->statusCode <= 299) {
+                    $response->data = [
+                        'success' => true,
+                        'status' => $response->statusCode,
+                        'data' => $responseData,
+                    ];
+                } else {
+                    $response->data = [
+                        'success' => false,
+                        'status' => $response->statusCode,
+                        'data' => $responseData,
+                    ];
+                }
+            }
         ],
+        'user' => [
+            'identityClass' => 'app\models\ViAccess',
+        ]
     ],
     'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
+// configuration adjustments for 'dev' environment
     $conf['bootstrap'][] = 'debug';
     $conf['modules']['debug'] = [
         'class' => 'yii\debug\Module',
             // uncomment the following to add your IP if you are not connecting from localhost.
-            //'allowedIPs' => ['127.0.0.1', '::1'],
+//'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 
     $conf['bootstrap'][] = 'gii';
@@ -73,8 +100,8 @@ if (YII_ENV_DEV) {
                 'class' => \app\generators\rest\Generator::class,
             ],
         ]
-            // uncomment the following to add your IP if you are not connecting from localhost.
-            //'allowedIPs' => ['127.0.0.1', '::1'],
+// uncomment the following to add your IP if you are not connecting from localhost.
+//'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 

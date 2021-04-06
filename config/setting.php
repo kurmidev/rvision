@@ -1,4 +1,7 @@
 <?php
+defined('LOGIN_EXPIRY_TIME') or define('LOGIN_EXPIRY_TIME', 24 * 60 * 60);
+
+
 
 function loadConfig($prefix, $dir, $extraConfig = []) {
     $fileList = \yii\helpers\FileHelper::findFiles($dir, ['only' => ['*' . $prefix . '.php']]);

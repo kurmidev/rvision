@@ -13,8 +13,8 @@ $conf = [
         '@tests' => '@app/tests',
     ],
     'components' => [
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
+        'user' => [
+            'class' => 'app\models\ViAccess',
         ],
         'log' => [
             'targets' => [

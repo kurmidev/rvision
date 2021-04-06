@@ -3,27 +3,27 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[ViAccess]].
+ * This is the ActiveQuery class for [[Area]].
  *
- * @see ViAccess
+ * @see Area
  */
-class ViAccessQuery extends BaseQuery {
+class AreaQuery extends \app\models\BaseQuery {
     /* public function active()
       {
       return $this->andWhere('[[status]]=1');
       } */
 
     /**
-     * {@inheritdoc}
-     * @return ViAccess[]|array
+     * @inheritdoc
+     * @return Area[]|array
      */
     public function all($db = null) {
         return parent::all($db);
     }
 
     /**
-     * {@inheritdoc}
-     * @return ViAccess|array|null
+     * @inheritdoc
+     * @return Area|array|null
      */
     public function one($db = null) {
         return parent::one($db);
